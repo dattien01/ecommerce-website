@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@keyframes blink {
+    0%, 100% { opacity: 1; color: #ff0000; } /* Màu đỏ */
+    50% { opacity: 0.3; color: #ffff00; } /* Màu vàng */
+  }
+  
+  .blinking-text {
+    animation: blink 1s infinite;
+  }
