@@ -302,7 +302,7 @@ function AdminProducts() {
                 <input
                   type="text"
                   name="title"
-                  value={formData.title}
+                  value={formData.title || ''}
                   onChange={handleInputChange}
                   className={`mt-2 block w-full rounded-md shadow-sm p-1 ${
                     errors.title ? 'border-red-500' : 'border-gray-300'
@@ -320,7 +320,7 @@ function AdminProducts() {
                 <input
                   type="number"
                   name="price"
-                  value={formData.price}
+                  value={formData.price || ''}
                   onChange={handleInputChange}
                   min="0"
                   step="0.01"
@@ -340,7 +340,7 @@ function AdminProducts() {
                 <input
                   type="text"
                   name="category"
-                  value={formData.category}
+                  value={formData.category || ''}
                   onChange={handleInputChange}
                   className={`mt-2 block w-full rounded-md shadow-sm p-1 ${
                     errors.category ? 'border-red-500' : 'border-gray-300'
@@ -361,7 +361,10 @@ function AdminProducts() {
                       type="radio"
                       value="url"
                       checked={imageSource === 'url'}
-                      onChange={(e) => setImageSource(e.target.value)}
+                      onChange={() => {
+                        setImageSource('url');
+                        setFormData(prev => ({ ...prev, image: '' }));
+                      }}
                       className="form-radio"
                     />
                     <span className="ml-2">Image URL</span>
@@ -371,7 +374,10 @@ function AdminProducts() {
                       type="radio"
                       value="upload"
                       checked={imageSource === 'upload'}
-                      onChange={(e) => setImageSource(e.target.value)}
+                      onChange={() => {
+                        setImageSource('upload');
+                        setFormData(prev => ({ ...prev, image: '' }));
+                      }}
                       className="form-radio"
                     />
                     <span className="ml-2">Upload Image</span>
@@ -381,7 +387,8 @@ function AdminProducts() {
                 {imageSource === 'url' ? (
                   <input
                     type="text"
-                    value={formData.image}
+                    name="image"
+                    value={formData.image || ''}
                     onChange={handleImageUrlChange}
                     placeholder="Enter image URL"
                     className={`mt-2 block w-full rounded-md shadow-sm p-1 ${
@@ -393,9 +400,7 @@ function AdminProducts() {
                     type="file"
                     accept="image/jpeg,image/png,image/gif,image/webp"
                     onChange={handleImageChange}
-                    className={`mt-2 block w-full ${
-                      errors.image ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`mt-2 block w-full ${errors.image ? 'border-red-500' : 'border-gray-300'}`}
                   />
                 )}
                 {errors.image && (
@@ -417,7 +422,7 @@ function AdminProducts() {
                 </label>
                 <textarea
                   name="description"
-                  value={formData.description}
+                  value={formData.description || ''}
                   onChange={handleInputChange}
                   className={`mt-2 block w-full rounded-md shadow-sm p-1 ${
                     errors.description ? 'border-red-500' : 'border-gray-300'

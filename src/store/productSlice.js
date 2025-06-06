@@ -12,13 +12,10 @@ export const fetchProducts = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response) {
-        // Server trả về lỗi
         return rejectWithValue(`Lỗi server: ${error.response.status} - ${error.response.data}`);
       } else if (error.request) {
-        // Không nhận được phản hồi từ server
         return rejectWithValue('Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng hoặc khởi động lại json-server.');
       } else {
-        // Lỗi khác
         return rejectWithValue(`Lỗi: ${error.message}`);
       }
     }
@@ -140,14 +137,17 @@ const productSlice = createSlice({
     builder
       .addCase(fetchProducts.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = action.payload;
+        state.items = action.payload || [];
+        state.error = null;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+        state.items = [];
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.items.push(action.payload);
